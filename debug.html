@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barcode Examples</title>
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .barcode-container {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .barcode-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .barcode {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Barcode Examples for: 1234567890</h1>
+
+    <!-- CODE128 -->
+    <div class="barcode-container">
+        <div class="barcode-title">CODE128 (Auto Mode)</div>
+        <svg class="barcode"></svg>
+    </div>
+
+    <div class="barcode-container">
+        <div class="barcode-title">CODE128 (Force Mode)</div>
+        <svg class="barcode"></svg>
+    </div>
+
+    <div class="barcode-container">
+        <div class="barcode-title">CODE128 (Mode A - Uppercase, numbers, control chars)</div>
+        <svg class="barcode"></svg>
+    </div>
+
+    <div class="barcode-container">
+        <div class="barcode-title">CODE128 (Mode B - All ASCII printable)</div>
+        <svg class="barcode"></svg>
+    </div>
+
+    <div class="barcode-container">
+        <div class="barcode-title">CODE128 (Mode C - Numbers only, pairs)</div>
+        <svg class="barcode"></svg>
+    </div>
+
+    <!-- CODE39 -->
+    <div class="barcode-container">
+        <div class="barcode-title">CODE39</div>
+        <svg class="barcode"></svg>
+    </div>
+
+    <!-- EAN13 -->
+    <div class="barcode-container">
+        <div class="barcode-title">EAN13</div>
+        <svg class="barcode"></svg>
+    </div>
+
+    <!-- EAN8 -->
+    <div class="barcode-container">
+        <div class="barcode-title">EAN8</div>
+        <svg class="barcode"></svg>
+    </div>
+
+    <!-- EAN5 -->
+    <div class="barcode-container">
+        <div class="barcode-title">EAN5</div>
+        <svg class="barcode"></svg>
+    </div>
+
+    <!-- EAN2 -->
+    <div class="barcode-container">
+        <div class="barcode-title">EAN2</div>
+        <svg class="barcode"></svg>
+    </div>
+
+    <!-- UPC -->
+    <div class="barcode-container">
+        <div class="barcode-title">UPC</div>
+        <svg class="barcode"></svg>
+    </div>
+
+    <!-- ITF -->
+    <div class="barcode-container">
+        <div class="barcode-title">ITF</div>
+        <svg class="barcode"></svg>
+    </div>
+
+    <!-- ITF14 -->
+    <div class="barcode-container">
+        <div class="barcode-title">ITF14</div>
+        <svg class="barcode"></svg>
+    </div>
+
+    <!-- MSI -->
+    <div class="barcode-container">
+        <div class="barcode-title">MSI</div>
+        <svg class="barcode"></svg>
+    </div>
+
+    <!-- MSI10 -->
+    <div class="barcode-container">
+        <div class="barcode-title">MSI10</div>
+        <svg class="barcode"></svg>
+    </div>
+
+    <!-- MSI11 -->
+    <div class="barcode-container">
+        <div class="barcode-title">MSI11</div>
+        <svg class="barcode"></svg>
+    </div>
+
+    <!-- MSI1010 -->
+    <div class="barcode-container">
+        <div class="barcode-title">MSI1010</div>
+        <svg class="barcode"></svg>
+    </div>
+
+    <!-- MSI1110 -->
+    <div class="barcode-container">
+        <div class="barcode-title">MSI1110</div>
+        <svg class="barcode"></svg>
+    </div>
+
+    <!-- Pharmacode -->
+    <div class="barcode-container">
+        <div class="barcode-title">Pharmacode</div>
+        <svg class="barcode"></svg>
+    </div>
+
+    <!-- Codabar -->
+    <div class="barcode-container">
+        <div class="barcode-title">Codabar</div>
+        <svg class="barcode"></svg>
+    </div>
+
+    <script>
+        const code = "1234567890";
+        
+        // Helper function to safely generate barcodes
+        function generateBarcode(selector, value, options) {
+            try {
+                JsBarcode(selector, value, {
+                    ...options,
+                    valid: function(valid) {
+                        if (!valid) {
+                            const element = document.querySelector(selector);
+                            if (element) {
+                                element.innerHTML = `<div style="color: red; padding: 10px;">Invalid barcode format for value: ${value}</div>`;
+                            }
+                        }
+                    }
+                });
+            } catch (error) {
+                const element = document.querySelector(selector);
+                if (element) {
+                    element.innerHTML = `<div style="color: red; padding: 10px;">Error: ${error.message}</div>`;
+                }
+            }
+        }
+
+        // CODE128 Auto Mode
+        generateBarcode(".barcode-container:nth-child(2) .barcode", code, {
+            format: "CODE128",
+            width: 2,
+            height: 100,
+            displayValue: true
+        });
+
+        // CODE128 Force Mode
+        generateBarcode(".barcode-container:nth-child(3) .barcode", code, {
+            format: "CODE128",
+            width: 2,
+            height: 100,
+            displayValue: true
+        });
+
+        // CODE128 Mode A
+        generateBarcode(".barcode-container:nth-child(4) .barcode", code, {
+            format: "CODE128A",
+            width: 2,
+            height: 100,
+            displayValue: true
+        });
+
+        // CODE128 Mode B
+        generateBarcode(".barcode-container:nth-child(5) .barcode", code, {
+            format: "CODE128B",
+            width: 2,
+            height: 100,
+            displayValue: true
+        });
+
+        // CODE128 Mode C
+        generateBarcode(".barcode-container:nth-child(6) .barcode", "1103647364", {
+            format: "CODE128C",
+            width: 2,
+            height: 100,
+            displayValue: true
+        });
+
+        // CODE39
+        generateBarcode(".barcode-container:nth-child(7) .barcode", code, {
+            format: "CODE39",
+            width: 2,
+            height: 100,
+            displayValue: true
+        });
+
+        // EAN13 (requires exactly 13 digits)
+        generateBarcode(".barcode-container:nth-child(8) .barcode", code, {
+            format: "EAN13",
+            width: 2,
+            height: 100,
+            displayValue: true
+        });
+
+        // EAN8 (requires exactly 8 digits)
+        generateBarcode(".barcode-container:nth-child(9) .barcode", code, {
+            format: "EAN8",
+            width: 2,
+            height: 100,
+            displayValue: true
+        });
+
+        // EAN5 (requires exactly 5 digits)
+        generateBarcode(".barcode-container:nth-child(10) .barcode", code, {
+            format: "EAN5",
+            width: 2,
+            height: 100,
+            displayValue: true
+        });
+
+        // EAN2 (requires exactly 2 digits)
+        generateBarcode(".barcode-container:nth-child(11) .barcode", code, {
+            format: "EAN2",
+            width: 2,
+            height: 100,
+            displayValue: true
+        });
+
+        // UPC (requires exactly 12 digits)
+        generateBarcode(".barcode-container:nth-child(12) .barcode", code, {
+            format: "UPC",
+            width: 2,
+            height: 100,
+            displayValue: true
+        });
+
+        // ITF (requires even number of digits)
+        generateBarcode(".barcode-container:nth-child(13) .barcode", code, {
+            format: "ITF",
+            width: 2,
+            height: 100,
+            displayValue: true
+        });
+
+        // ITF14 (requires exactly 14 digits)
+        generateBarcode(".barcode-container:nth-child(14) .barcode", code, {
+            format: "ITF14",
+            width: 2,
+            height: 100,
+            displayValue: true
+        });
+
+        // MSI (numeric only)
+        generateBarcode(".barcode-container:nth-child(15) .barcode", code, {
+            format: "MSI",
+            width: 2,
+            height: 100,
+            displayValue: true
+        });
+
+        // MSI10 (numeric only)
+        generateBarcode(".barcode-container:nth-child(16) .barcode", code, {
+            format: "MSI10",
+            width: 2,
+            height: 100,
+            displayValue: true
+        });
+
+        // MSI11 (numeric only)
+        generateBarcode(".barcode-container:nth-child(17) .barcode", code, {
+            format: "MSI11",
+            width: 2,
+            height: 100,
+            displayValue: true
+        });
+
+        // MSI1010 (numeric only)
+        generateBarcode(".barcode-container:nth-child(18) .barcode", code, {
+            format: "MSI1010",
+            width: 2,
+            height: 100,
+            displayValue: true
+        });
+
+        // MSI1110 (numeric only)
+        generateBarcode(".barcode-container:nth-child(19) .barcode", code, {
+            format: "MSI1110",
+            width: 2,
+            height: 100,
+            displayValue: true
+        });
+
+        // Pharmacode (numeric only)
+        generateBarcode(".barcode-container:nth-child(20) .barcode", code, {
+            format: "pharmacode",
+            width: 2,
+            height: 100,
+            displayValue: true
+        });
+
+        // Codabar
+        generateBarcode(".barcode-container:nth-child(21) .barcode", code, {
+            format: "codabar",
+            width: 2,
+            height: 100,
+            displayValue: true
+        });
+    </script>
+</body>
+</html>
