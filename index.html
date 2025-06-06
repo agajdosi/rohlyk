@@ -31,6 +31,14 @@
             border: 1px solid #ccc;
             border-radius: 4px;
         }
+        select {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: white;
+            min-width: 200px;
+        }
         button {
             padding: 10px 20px;
             font-size: 16px;
@@ -59,6 +67,13 @@
             padding: 10px;
             display: none;
         }
+        .format-info {
+            font-size: 14px;
+            color: #666;
+            margin-top: 5px;
+            text-align: left;
+            max-width: 500px;
+        }
     </style>
 </head>
 <body>
@@ -66,7 +81,37 @@
         <h1>Barcode Generator</h1>
         <div class="input-group">
             <input type="text" id="barcodeInput" placeholder="Enter text for barcode" value="123-C-1">
+            <select id="formatSelect" onchange="updateFormatInfo()">
+                <optgroup label="CODE128">
+                    <option value="CODE128">CODE128 (Auto)</option>
+                    <option value="CODE128A">CODE128 (Mode A)</option>
+                    <option value="CODE128B" selected>CODE128 (Mode B)</option>
+                    <option value="CODE128C">CODE128 (Mode C)</option>
+                </optgroup>
+                <optgroup label="EAN/UPC">
+                    <option value="EAN13">EAN13</option>
+                    <option value="EAN8">EAN8</option>
+                    <option value="EAN5">EAN5</option>
+                    <option value="EAN2">EAN2</option>
+                    <option value="UPC">UPC</option>
+                </optgroup>
+                <optgroup label="Other">
+                    <option value="CODE39">CODE39</option>
+                    <option value="ITF">ITF</option>
+                    <option value="ITF14">ITF14</option>
+                    <option value="MSI">MSI</option>
+                    <option value="MSI10">MSI10</option>
+                    <option value="MSI11">MSI11</option>
+                    <option value="MSI1010">MSI1010</option>
+                    <option value="MSI1110">MSI1110</option>
+                    <option value="pharmacode">Pharmacode</option>
+                    <option value="codabar">Codabar</option>
+                </optgroup>
+            </select>
             <button onclick="generateBarcode()">Generate</button>
+        </div>
+        <div class="format-info" id="formatInfo">
+            CODE128 Mode B: Supports all ASCII printable characters
         </div>
         <div class="error" id="errorMessage"></div>
         <div class="barcode-container">
@@ -75,13 +120,41 @@
     </div>
 
     <script>
+        const formatInfo = {
+            'CODE128': 'Auto-selects the best mode (A, B, or C) based on the input',
+            'CODE128A': 'Mode A: Uppercase letters, numbers, and control characters',
+            'CODE128B': 'Mode B: All ASCII printable characters',
+            'CODE128C': 'Mode C: Numbers only, must be in pairs',
+            'EAN13': 'Requires exactly 13 digits',
+            'EAN8': 'Requires exactly 8 digits',
+            'EAN5': 'Requires exactly 5 digits',
+            'EAN2': 'Requires exactly 2 digits',
+            'UPC': 'Requires exactly 12 digits',
+            'CODE39': 'Supports uppercase letters, numbers, and some special characters',
+            'ITF': 'Requires even number of digits',
+            'ITF14': 'Requires exactly 14 digits',
+            'MSI': 'Numeric only',
+            'MSI10': 'Numeric only with modulo 10 check digit',
+            'MSI11': 'Numeric only with modulo 11 check digit',
+            'MSI1010': 'Numeric only with two modulo 10 check digits',
+            'MSI1110': 'Numeric only with modulo 11 and modulo 10 check digits',
+            'pharmacode': 'Numeric only, used in pharmaceutical industry',
+            'codabar': 'Supports uppercase letters, numbers, and some special characters'
+        };
+
+        function updateFormatInfo() {
+            const format = document.getElementById('formatSelect').value;
+            document.getElementById('formatInfo').textContent = formatInfo[format];
+        }
+
         function generateBarcode() {
             const input = document.getElementById('barcodeInput').value;
+            const format = document.getElementById('formatSelect').value;
             const errorElement = document.getElementById('errorMessage');
             
             try {
                 JsBarcode(".barcode", input, {
-                    format: "CODE128B",
+                    format: format,
                     width: 2,
                     height: 100,
                     displayValue: true,
@@ -101,7 +174,10 @@
         }
 
         // Generate barcode on page load
-        window.onload = generateBarcode;
+        window.onload = function() {
+            updateFormatInfo();
+            generateBarcode();
+        };
     </script>
 </body>
 </html>
